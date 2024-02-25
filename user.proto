@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package user;
+option go_package=".;user";
+
+message UserRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message UserResponse {
+  int32 code = 1;
+  string msg = 2;
+  map<string,string> data = 3;
+}
+
+service User {
+  rpc UserLogin(UserRequest) returns(UserResponse);
+}
