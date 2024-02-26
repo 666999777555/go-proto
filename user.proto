@@ -3,17 +3,91 @@ syntax = "proto3";
 package user;
 option go_package=".;user";
 
-message UserRequest {
-  string username = 1;
-  string password = 2;
+//结构体实例
+message UserInfo{
+  int64 Id = 10;
+  string Name = 20;
+  string Mobile = 30;
+  string Password = 40;
+  Sex Sex = 50;
 }
 
-message UserResponse {
-  int32 code = 1;
-  string msg = 2;
-  map<string,string> data = 3;
+//根据id查询 -Request
+message GetIdUserRequest {
+  int64  Id = 10;
+}
+//根据id查询 -Response
+message GetIdUserResponse {
+  UserInfo Info = 10;
+}
+
+//用户列表 -Request
+message ListUserRequest{
+  int64 offset = 10;
+  int64 limit = 20;
+}
+
+//用户列表 -Response
+message ListUserResponse{
+  repeated UserInfo Infos = 10;
+  int64  Total = 20;
+}
+
+//添加用户 -Request
+message CreateUserRequest{
+  UserInfo Info = 10;
+}
+
+//添加用户 -Response
+message CreateUserResponse{
+  UserInfo Info = 10;
+}
+
+//修改用户 -Request
+message UpdateUserRequest{
+  UserInfo Info = 10;
+}
+
+//修改用户 -Response
+message UpdateUserResponse{
+  UserInfo Info = 10;
+}
+
+//删除用户 -Request
+message DeleteUserRequest{
+  int64  Id = 10;
+}
+
+//删除用户 -Response
+message DeleteUserResponse{}
+
+//根据name查询 -Request
+message GetNameUserRequest{
+  string name = 10;
+}
+//根据name查询 -Response
+message GetNameUserResponse{
+  UserInfo Info = 10;
 }
 
 service User {
-  rpc UserLogin(UserRequest) returns(UserResponse);
+  //根据id查询
+  rpc GetIdUser(GetIdUserRequest) returns(GetIdUserResponse);
+  //用户列表
+  rpc GetListUser(ListUserRequest) returns(ListUserResponse);
+  //添加用户
+  rpc CreateUser(CreateUserRequest) returns(CreateUserResponse);
+  //修改用户
+  rpc UpdateUser(UpdateUserRequest) returns(UpdateUserResponse);
+  //删除用户
+  rpc DeleteUser(DeleteUserRequest) returns(DeleteUserResponse);
+  //根据name查询
+  rpc GetNameUser(GetNameUserRequest) returns(GetNameUserResponse);
+}
+
+//枚举/性别
+ enum Sex {
+  Default = 0;
+  Man = 10;
+  WoMan = 20;
 }
